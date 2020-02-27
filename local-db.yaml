@@ -1,0 +1,26 @@
+# Use postgres/example user/password credentials
+version: '3.1'
+
+services:
+
+  db:
+    image: postgres
+    restart: always
+    environment:
+      POSTGRES_USER: crtool
+      POSTGRES_PASSWORD: codereview
+      POSTGRES_DB: crtool
+    ports:
+    - 5432:5432
+
+  crwool:
+    build: ./
+    environment:
+      SONARQUBE_JDBC_USERNAME: crtool
+      SONARQUBE_JDBC_PASSWORD: codereview
+      SONARQUBE_JDBC_URL: jdbc:postgresql://db/crtool?currentSchema=public
+    ports:
+    - 9000:9000
+    depends_on:
+    - db
+
